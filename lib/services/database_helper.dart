@@ -1,9 +1,11 @@
-import 'package:sqflite/sqflite.dart';
-// import 'package:path_provider/path_provider.dart';
-// import 'dart:io';
-// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'dart:io';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import '../modal/notes.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+import 'package:universal_io/io.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -20,16 +22,28 @@ class DatabaseHelper {
 
   Future<Database> _initDB() async {
 
-    // Initialize sqflite_ffi for desktop platforms
-    // sqfliteFfiInit();
-    // databaseFactory = databaseFactoryFfi;
+    if (kIsWeb) {
+      // Initialize the Web Database
+      databaseFactory = databaseFactoryFfiWeb;
+    } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      // Initialize the FFI database for desktop
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
 
-    String path = join(await getDatabasesPath(), 'notes.db');
-
+    // Get the database path
+    String path;
+    if (kIsWeb) {
+      path = 'notes.db'; // No file system on web
+    } else {
+      var databasesPath = await getDatabasesPath();
+      path = join(databasesPath, 'notes.db');
+    }
+  
     return await openDatabase(
       path,
       version: 1,
-      onCreate: _onCreate
+      onCreate: _onCreate,
     );
   }
 
