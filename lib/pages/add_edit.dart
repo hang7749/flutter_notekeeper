@@ -5,7 +5,7 @@ import 'package:flutter_notekeeper/services/database_helper.dart';
 
 class AddEditNote extends StatefulWidget {
   final Notes? note; // Optional note for editing
-  const AddEditNote({this.note});
+  const AddEditNote({super.key, this.note});
 
   @override
   State<AddEditNote> createState() => _AddEditNoteState();
@@ -27,6 +27,7 @@ class _AddEditNoteState extends State<AddEditNote> {
     Colors.yellow,
     Colors.orange,
   ];
+  // ignore: unused_field
   String _dateTime = DateTime.now().toString();
 
   @override
@@ -162,6 +163,7 @@ class _AddEditNoteState extends State<AddEditNote> {
         id: widget.note?.id,
         title: _titleController.text,
         content: _contentController.text,
+        // ignore: deprecated_member_use
         color: _selectedColor.value.toString(),
         dateTime: DateTime.now().toString(),
       );

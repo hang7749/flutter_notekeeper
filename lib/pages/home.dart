@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notekeeper/pages/add_edit.dart';
 import 'package:flutter_notekeeper/modal/notes.dart';
@@ -14,18 +13,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
-
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   List<Notes> _notes = [];
-  final List<Color> _noteColors = [
-    Colors.amber,
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.yellow,
-    Colors.orange,
-  ];
 
   @override
   void initState() {

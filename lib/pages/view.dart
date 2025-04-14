@@ -5,7 +5,7 @@ import '../modal/notes.dart';
 
 class ViewNote extends StatelessWidget {
   final Notes note;
-  ViewNote({required this.note});
+  ViewNote({super.key, required this.note});
 
   final DatabaseHelper _databaseHelper = DatabaseHelper();
 
@@ -49,6 +49,7 @@ class ViewNote extends StatelessWidget {
                   ),
                 ),
               );
+              // ignore: use_build_context_synchronously
               Navigator.pop(context, true); // Return to previous screen
             },
             icon: Icon(
@@ -182,6 +183,7 @@ class ViewNote extends StatelessWidget {
 
     if (confirm == true) {
       await _databaseHelper.deleteNote(note.id!);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true); // Return to previous screen
     }
   }
