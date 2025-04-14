@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notekeeper/pages/add_edit.dart';
 import 'package:flutter_notekeeper/modal/notes.dart';
+import 'package:flutter_notekeeper/pages/view.dart';
 import 'package:flutter_notekeeper/services/database_helper.dart';
 
 class Home extends StatefulWidget {
@@ -18,6 +19,7 @@ class _HomeState extends State<Home> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   List<Notes> _notes = [];
   final List<Color> _noteColors = [
+    Colors.amber,
     Colors.red,
     Colors.green,
     Colors.blue,
@@ -38,7 +40,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  String _formateDateTime(String dateTime) {
+  String _formatDateTime(String dateTime) {
     final DateTime dt = DateTime.parse(dateTime);
     final now = DateTime.now();
 
@@ -75,16 +77,22 @@ class _HomeState extends State<Home> {
         itemBuilder: (context, index) {
 
           final note = _notes[index];
-          final color = Color(int.parse(note.color));
+          final homeNoteColor = Color(int.parse(note.color));
 
           return GestureDetector(
-            onTap: ()async {
+            onTap: () async {
               // Handle note tap
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewNote(note: note),
+                ),
+              );
               _loadNotes();
             },
             child: Container(
               decoration: BoxDecoration(
-                color: _noteColors[index % _noteColors.length],
+                color: homeNoteColor,
                 borderRadius: BorderRadius.circular(16.0),
                 boxShadow: [
                   BoxShadow(
@@ -120,7 +128,7 @@ class _HomeState extends State<Home> {
                   ),
                   Spacer(),
                   Text(
-                    _formateDateTime(note.dateTime),
+                    _formatDateTime(note.dateTime),
                     style: const TextStyle(
                       fontSize: 12.0,
                       color: Colors.white54,

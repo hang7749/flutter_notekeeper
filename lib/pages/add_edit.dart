@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notekeeper/modal/notes.dart';
+import 'package:flutter_notekeeper/pages/home.dart';
 import 'package:flutter_notekeeper/services/database_helper.dart';
 
 class AddEditNote extends StatefulWidget {
@@ -123,7 +124,9 @@ class _AddEditNoteState extends State<AddEditNote> {
                   InkWell(
                     onTap: () {
                       _saveNote();
-                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>  Home(),
+                      ));
                     },
                     child: Container(
                       margin: const EdgeInsets.all(20.0),
